@@ -8,13 +8,13 @@
 
 .providerSpan {
   box-sizing: content-box;
-  border: 4px solid black;
+  border: 2px solid black;
   border-radius: 30px;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   margin: 16px;
   font-size: 24px;
-  line-height: 36px;
+  line-height: 38px;
   vertical-align: middle;
   display: inline-block;
   cursor: pointer;

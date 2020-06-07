@@ -6,6 +6,8 @@ const initialState = {
 };
 
 const authSuccess = (state, action) => {
+  localStorage.setItem('token', action.token);
+  localStorage.setItem('email', action.email);
   return {
     ...state,
     token: action.token,
@@ -14,6 +16,8 @@ const authSuccess = (state, action) => {
 };
 
 const authReset = (state, action) => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('email');
   return {
     ...state,
     token: null,
