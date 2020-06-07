@@ -77,7 +77,6 @@ const mapDispatchToProps = dispatch => {
   return {
     setGlobalMessage: (msg, type) => dispatch(actions.setGlobalMessage(msg, type)),
     unsetGlobalMessage: () => dispatch(actions.unsetGlobalMessage()),
-    authSuccess: (token, email) => dispatch(actions.authSuccess(token, email)),
   };
 }
 
