@@ -98,7 +98,7 @@ class Vote extends Component {
 
           if (polarity !== 0) {
             nextQuote = findSimilarQuote(this.state.activeQuote, this.state.allQuotes, polarity);
-            console.log(nextQuote);
+            // console.log(nextQuote);
           }
           return this.getQuote(nextQuote && nextQuote.id);
         }, dramaticPauseDuration);

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import './login.css';
 import provider1Logo from '../../assets/images/github-logo.png';
@@ -30,22 +32,27 @@ class Login extends Component {
     //     'Content-Type': 'application/x-www-form-urlencoded'
     //   }
     // })
-    this.props.setGlobalMessage('Authenticating', 'warning');
-    axios.get(`/auth/${provider}`, {
-      header: {
-        'Access-Control-Allow-Origin': true,
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Origin': '*'
-      }
-    })
-    .then(res => {
-      this.props.setGlobalMessage('Authentication Successful');
-      this.setMessageTimeout(2000);
-    })
-    .catch(error => {
-      this.props.setGlobalMessage(error.message, 'error');
-      this.setMessageTimeout();
-    });
+    if (provider === 'proxy') {
+      this.props.history.push('/auth/local');
+    }
+    else {
+      this.props.setGlobalMessage('Authenticating', 'warning');
+      axios.get(`/auth/${provider}`, {
+        header: {
+          'Access-Control-Allow-Origin': true,
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Origin': '*'
+        }
+      })
+      .then(res => {
+        this.props.setGlobalMessage('Authentication Successful');
+        this.setMessageTimeout(2000);
+      })
+      .catch(error => {
+        this.props.setGlobalMessage(error.message, 'error');
+        this.setMessageTimeout();
+      });
+    }
   }
 
   render () {
@@ -56,6 +63,9 @@ class Login extends Component {
           <p className="card-text">
             <img src={provider1Logo} className="providerLogo" onClick={() => this.providerLogin('github')} alt='Github Login' />
             <img src={provider2Logo} className="providerLogo" onClick={() => this.providerLogin('google')} alt='Google Login' />
+            <span className="providerSpan" title='Simulate Login'>
+              <FontAwesomeIcon icon={faUserSecret} onClick={() => this.providerLogin('proxy')} />
+            </span>
           </p>
         </div>
       </div>
@@ -67,6 +77,7 @@ const mapDispatchToProps = dispatch => {
   return {
     setGlobalMessage: (msg, type) => dispatch(actions.setGlobalMessage(msg, type)),
     unsetGlobalMessage: () => dispatch(actions.unsetGlobalMessage()),
+    authSuccess: (token, email) => dispatch(actions.authSuccess(token, email)),
   };
 }
 

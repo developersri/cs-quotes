@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  token: '1343jk2h5kj4hk5hk5h2',
+  token: null,
   email: null,
 };
 
