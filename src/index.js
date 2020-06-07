@@ -8,9 +8,11 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import MessageReducer from './store/reducers/message';
+import AuthReducer from './store/reducers/auth';
 
 const rootReducer = combineReducers({
-  msg: MessageReducer
+  msg: MessageReducer,
+  auth: AuthReducer,
 });
 
 const store = createStore(rootReducer);

@@ -5,7 +5,7 @@ import './message.css';
 
 class Message extends Component {
   render () {
-    let classes = ['message', this.props.msgType].join(' ');
+    let classes = ['message', 'alert', this.props.msgType].join(' ');
 
     const message = this.props.msg ? (
       <div className={classes}>
