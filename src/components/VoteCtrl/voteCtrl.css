@@ -1,0 +1,17 @@
+.rating {
+  margin: 16px;
+  display: inline-block;
+}
+
+.star {
+  height: 18px;
+  color: lightgray;
+}
+
+.star.editable {
+  cursor: pointer;
+}
+
+.star.rated {
+  color: orange;
+}

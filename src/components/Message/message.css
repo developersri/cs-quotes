@@ -1,0 +1,24 @@
+.message {
+  position: fixed;
+  padding: 8px;
+  bottom: 16px;
+  right: 16px;
+  width: 300px;
+  max-width: 70%;
+  height: auto;
+  box-shadow: 1px 1px 5px lightgray;
+}
+
+.error {
+  background-color: #dc3545;
+  color: white;
+}
+
+.warning {
+  background-color: #ffc107;
+}
+
+.success {
+  background-color: #28a745;
+  color: white;
+}
