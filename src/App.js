@@ -24,7 +24,7 @@ class App extends Component {
       <div className="App">
         <Header />
         <Switch>
-          {this.props.authToken != null ? null : <Route path="/auth/:provider" component={LoginAuth} />}
+          {this.props.authToken != null ? null : <Route path="/auth/:provider/:token" component={LoginAuth} />}
           {this.props.authToken != null ? null : <Route path="/auth" exact component={Login} />}
           <Route path="/vote" exact component={Vote} />
           <Redirect to="/vote" />

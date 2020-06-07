@@ -26,14 +26,11 @@ class Login extends Component {
 
   providerLogin (provider) {
     this.clearMessageTimeout();
-    // axios.get('https://github.com/login/oauth/authorize?response_type=code&scope=user%3Aemail&client_id=fc2b7ae5b863a67c01d4', {
-    //   header: {
-    //     'Access-Control-Allow-Origin': true,
-    //     'Content-Type': 'application/x-www-form-urlencoded'
-    //   }
-    // })
     if (provider === 'proxy') {
-      this.props.history.push('/auth/local');
+      // generate fake token to simulate the authentication workflow
+      let token = '$djeh25252&EHjhcwe';
+      // redirect to the appropriate path as expected by other providers
+      this.props.history.push(`/auth/local/${token}`);
     }
     else {
       this.props.setGlobalMessage('Authenticating', 'warning');
@@ -43,10 +40,6 @@ class Login extends Component {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Origin': '*'
         }
-      })
-      .then(res => {
-        this.props.setGlobalMessage('Authentication Successful');
-        this.setMessageTimeout(2000);
       })
       .catch(error => {
         this.props.setGlobalMessage(error.message, 'error');

@@ -6,9 +6,15 @@ import * as actions from '../../store/actions/index';
 class LoginAuth extends Component {
   componentDidMount () {
     let provider = this.props.match.params.provider;
+    let token = this.props.match.params.token;
+    let email;
     if (provider === 'local') {
-      this.props.authSuccess('$djeh25252&EHjhcwe', 'test@cs-quotes.com');
+      email = 'test@cs-quotes.com';
     }
+    else {
+      // get user email by accessing protected resources from API server using the token
+    }
+    this.props.authSuccess(token, email);
   }
 
   render () {
