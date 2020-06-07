@@ -11,7 +11,7 @@ import Message from './components/Message/Message';
 import * as actions from './store/actions/index';
 
 class App extends Component {
-  componentWillMount () {
+  componentDidMount () {
     let token = localStorage.getItem('token');
     let email = localStorage.getItem('email');
     if (token != null) {
