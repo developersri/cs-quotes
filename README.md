@@ -57,8 +57,7 @@ Once the vote has been successfully recorded, the system further makes a decisio
 
 If the quote is rated highly (>=4), the system is wired up to identify a similar quote and present it next. If the rating given by the user was not pleasant (=1), the system identifies the event as a trigger to find a dissimilar quote. In order to achieve this, a natural language processing library `natural` has been used. It is available on `npm` and should be installed at the time of project setup (no explicit installation steps are required). The library exposes several NLP techniques and methods from which, this application leverages 'Stemming' and 'Sentiment Analysis' particularly.
 
-- **Stemming** is the process of reducing inflection in words to derive their root words.
-  Example:
+- **Stemming** is the process of reducing inflection in words to derive their root words.  Example:
   - programming -> program
   - computing -> compute
 
