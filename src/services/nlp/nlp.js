@@ -19,8 +19,10 @@ const findSimilarQuote = (activeQuote, quotes, polarity = 1) => {
     });
 
     q.score = 0;
+    q.matchingStems = [];
     activeQuoteStems.forEach((s) => {
       if (q.stems[s] != null) {
+        q.matchingStems.push(s);
         q.score++;
       }
     });

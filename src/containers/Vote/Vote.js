@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Aux from '../../hoc/Aux/Aux';
 import axios from '../../services/axios/quotes';
@@ -13,6 +15,7 @@ class Vote extends Component {
     activeQuoteUserRating: null,
     allQuotes: [],
     fetching: false,
+    similarityInfo: null,
   }
 
   messageTimeout = null;
@@ -59,6 +62,9 @@ class Vote extends Component {
     if (id) {
       url = '/quotes/id/' + id;
     }
+    else {
+      this.setState({ similarityInfo: null });
+    }
 
     return axios.get(url)
       .then(response => {
@@ -99,6 +105,12 @@ class Vote extends Component {
           if (polarity !== 0) {
             nextQuote = findSimilarQuote(this.state.activeQuote, this.state.allQuotes, polarity);
             // console.log(nextQuote);
+            this.setState((prevState) => ({
+              similarityInfo : {
+                previousQuote: { ...prevState.activeQuote },
+                matchedQuote: nextQuote,
+              }
+            }));
           }
           return this.getQuote(nextQuote && nextQuote.id);
         }, dramaticPauseDuration);
@@ -109,7 +121,12 @@ class Vote extends Component {
       })
   };
 
-
+  getQuoteHTML = (quote, stems) => {
+    stems.forEach((stem, i) => {
+      quote = quote.replace(new RegExp(stem, 'gi'), `<strong>${stem}</strong>`);
+    });
+    return quote;
+  };
 
   componentDidMount () {
     this.getAllQuotes()
@@ -120,11 +137,15 @@ class Vote extends Component {
     let quote = null;
 
     if (this.state.activeQuote) {
+      let quoteHTML = this.state.similarityInfo ?
+        this.getQuoteHTML(this.state.activeQuote.en, this.state.similarityInfo.matchedQuote.matchingStems) :
+        this.state.activeQuote.en;
+
       quote = (
         <Aux>
           <div className="card-body">
             <h1 className="card-title">{this.state.activeQuote.author}</h1>
-            <p className="card-text">{this.state.activeQuote.en}</p>
+            <p className="card-text" dangerouslySetInnerHTML={{ __html: quoteHTML }}></p>
           </div>
 
           <div className="card-link">
@@ -162,12 +183,48 @@ class Vote extends Component {
       quote = <div className="card-body"><p>Fetching...</p></div>;
     }
     else {
-      quote = <div className="card-body"><p>Something went wrong!</p></div>;
+      quote = <div className="card-body">
+        <p>Something went wrong!</p>
+        <button type="button" className="btn btn-secondary btn-sm" onClick={() => this.getQuote()}>Retry</button>
+      </div>;
+    }
+
+    let similarity = null;
+    if (this.state.similarityInfo != null) {
+      let prevQuote = this.getQuoteHTML(this.state.similarityInfo.previousQuote.en, this.state.similarityInfo.matchedQuote.matchingStems);
+      // console.log(prevQuote);
+
+      similarity = <div id="accordion">
+        <div className="card">
+          <div className="card-header" id="headingAnalysis">
+            <h5 className="mb-0">
+              <button className="btn px-1" data-toggle="collapse" data-target="#collapseAnalysis" aria-expanded="false" aria-controls="collapseAnalysis">
+                Similarity Score: <strong>{this.state.similarityInfo.matchedQuote.score}</strong>
+
+              </button>
+              <button className="btn btn-link px-0" data-toggle="collapse" data-target="#collapseAnalysis" aria-expanded="false" aria-controls="collapseAnalysis">
+                <FontAwesomeIcon icon={faInfoCircle} />
+              </button>
+            </h5>
+          </div>
+
+          <div id="collapseAnalysis" className="collapse" aria-labelledby="headingAnalysis" data-parent="#accordion">
+            <div className="card-body">
+              <p>
+                <u>Previous Quote</u><br/>
+                <span dangerouslySetInnerHTML={{ __html: prevQuote }}></span>
+              </p>
+              <p>Sentimental Difference: <strong>{this.state.similarityInfo.matchedQuote.sentimentDiff}</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>;
     }
 
     return (
       <div className="card w-75 mx-auto my-5">
         {quote}
+        {similarity}
       </div>
     );
   }
