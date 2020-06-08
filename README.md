@@ -28,10 +28,30 @@ The project comprises of a client application built in `ReactJS` and has the fol
   - this path hosts the component `Login` which where a list of 3rd party authentication providers shows up. It includes **Github**, **Google** and **_Simulated_** login providers. Simulated login method is designed to simulate the general OAuth mechanism by generating a random token **without** permission grant from the user and redirects the user agent (browser) to the expected route `/auth/$provider/$token` as should the rest of providers.
 
 - `/auth/$provider/$token`:
+  - strictly anonymous (i.e., can be accessed only until the user is not authenticated)
   - this path is a default 'catchall' route for all 3rd party API server redirects post authentication. At this route, the idea is to handle supplied auth `$token` and request other protected resources (user email) from API server of the `$provider` using the token. Once the user is authenticated, the UI automatically redirects to the default `/vote` route to proceed with further workflow.
 
-## Finding Similar Quotes
+## Workflow
 
-If the quote is rated highly (4 or above), the system is wired up to identify a similar quote and present it next. In order to achieve this, a natural language processing library `natural` has been used. It is available on `npm` and should be installed at the project setup (no explicit installation steps are required). The library exposes several nlp techniques and methods from which, this application leverages 'Stemming' and 'Sentimental Analysis'.
+The main React component of the application is `Vote` (file: `src/containers/Vote/Vote.js`) where all the major work flow is contained. Some of the important states/event of the app flow are:
 
-### Stemming
+### Fetching random quotes
+
+User is presented with a random quote from a pool of quotes `GET`ted remotely from `https://programming-quotes-api.herokuapp.com/quotes/random`. This is handled inside the method `getQuote(id)` of `Vote` class. This function takes an optional parameter `id`. If the method is called with `id` argument, it will fetch the quote matching with the supplied id, and will fetch a totally random quote if no `id` is supplied while calling the function. This function is called at following events:
+
+- `componentDidMount` lifecycle hook (wihtout `id`): to fetch random quote on startup
+- `rateActiveQuote` method:
+  - called with `id` if current quote is rated highly (>= 4) or lowly (=1)
+  - called without `id` if current quote is rated as average (2 or 3)
+
+### Posting vote
+
+User can post a vote on the current quote and the response is `POST`ed to the remote API at the route `https://programming-quotes-api.herokuapp.com/quotes/vote`.
+Once the vote has been successfully recorded, the system further makes a decision whether a random or a similar/dissimilar quote is to be fetched next. Criteria of evaluating a similar/dissimilar post is discussed in the next section.
+
+### Finding similar/dissimilar quotes
+
+If the quote is rated highly (>=4), the system is wired up to identify a similar quote and present it next. If the rating given by the user was not pleasant (=1), the system identifies the event as a trigger to find a dissimilar quote. In order to achieve this, a natural language processing library `natural` has been used. It is available on `npm` and should be installed at the time of project setup (no explicit installation steps are required). The library exposes several NLP techniques and methods from which, this application leverages 'Stemming' and 'Sentiment Analysis' particularly.
+
+- **Stemming**:
+- **Sentiment Analysis**:
