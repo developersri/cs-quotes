@@ -74,14 +74,17 @@ If the quote is rated highly (>=4), the system is wired up to identify a similar
 
   More on sentiment analysis can be found [here](https://en.wikipedia.org/wiki/Sentiment_analysis) and how `natural` does it [here](https://www.npmjs.com/package/natural#sentiment-analysis).
 
-  There can be more than one quote in the pool which matches the desired 'Similarity Score' obtained after stemming. To pick the most suitable quote from all quotes having the same score, the chosen way was to analyze the sentiment of each quote and finally pick the quote with closest/furthest sentiment.
+  There can be more than one quote in the pool which matches the desired 'Similarity Score' obtained after stemming. To pick the most suitable quote from all quotes having the same score, the preferred way is to analyze the sentiment of each quote and finally pick the one with closest/furthest sentiment from the original quote.
 
   **Sentimental difference** is devised to find the closest/furthest sentiment and is calculated by finding the absolute difference between 'Sentimental Score' of the subject quote and that of the original one.
 
   > If a **similar** quote is to be found, the quote having the **least** 'sentimental difference' is picked.
   > For finding a **dissimilar** quote, the quote having the **most** 'sentimental difference' is selected.
 
+  *Note*: Sentimental analysis is one of the other possible ways to derive similarity in quotes. Why it is preferred in this application is because of personal interpretation and judgment of finding similarity between two quotes.
+
+
 ## Caveats
 
-- There may be some cases while trying to evaluate similar/dissimilar quotes when the system discovers 2 quotes (say `A` and `B`) which are perfectly similar/dissimilar. If `A` is rated highly, then system puts up `B` and vice versa. This can put the user into a virtual loop and can be avoided by reloading or not liking the quote.
+- There may be some cases while trying to evaluate similar/dissimilar quotes when the system discovers 2 quotes (say `A` and `B`) which are perfectly similar/dissimilar. If `A` is rated highly, then system puts up `B` and vice versa. This can put the user into a virtual loop and can be avoided by reloading or disliking the quote.
 - Login authentication with providers 'Github' and 'Google' will not work due to a suspected CORS misconfiguration at the API [server](https://programming-quotes-api.herokuapp.com) end
