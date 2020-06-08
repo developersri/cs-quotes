@@ -65,8 +65,6 @@ If the quote is rated highly (>=4), the system is wired up to identify a similar
 
   The reason why this technique is deemed helpful for this application is that 2 different quotes can have words with same root but still not be identified due to their inflection in either or both of the quotes. Reducing each inflected word to their roots can significantly increase the chances of finding 'flavors' of the same root word in other quotes.
 
-  By matching each quote for a specific set of root words, the quote is given a score which is literally equal to the number of root words matched.
-  If a **similar** quote is to be found, all quotes having highest possible 'score' are qualified for further evaluation.
-  For finding a **dissimilar** quote, all quotes having lowest possible score are promoted further.
+  By matching each quote for a specific set of root words, the quote is given a score which is literally equal to the number of root words matched.  If a **similar** quote is to be found, all quotes having highest possible 'score' are qualified for further evaluation.  For finding a **dissimilar** quote, all quotes having lowest possible score are promoted further.
 
 - **Sentiment Analysis** is the process of finding a normalized sentiment score of a sentence. This is achieved by inspecting a string word by word evaluating sentimental 'polarity' of each of them, summing them up and then normalizing the sum by the length of the sentence.
