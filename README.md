@@ -59,8 +59,8 @@ If the quote is rated highly (>=4), the system is wired up to identify a similar
 
 - **Stemming** is the process of reducing inflection in words to derive their root words.
   Example:
-    programming -> program
-    computing -> compute
+  - programming -> program
+  - computing -> compute
 
   More on stemming can be found [here](https://en.wikipedia.org/wiki/Stemming) and how `natural` does it [here](https://www.npmjs.com/package/natural#stemmers).
 
