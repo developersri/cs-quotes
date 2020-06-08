@@ -81,7 +81,7 @@ If the quote is rated highly (>=4), the system is wired up to identify a similar
   > If a **similar** quote is to be found, the quote having the **least** 'sentimental difference' is picked.
   > For finding a **dissimilar** quote, the quote having the **most** 'sentimental difference' is selected.
 
-  *Note*: Sentimental analysis is one of the other possible ways to derive similarity in quotes. Why it is preferred in this application is because of personal interpretation and judgment of finding similarity between two quotes.
+  *Note*: Sentimental analysis is one of the other possible ways to derive similarity in quotes. Why it is preferred in this application is because of the personal interpretation and judgment of finding *similarity* between two quotes.
 
 
 ## Caveats
