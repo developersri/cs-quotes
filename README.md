@@ -2,16 +2,15 @@ The project is focused towards presenting a famous computer science quote picked
 
 # Installation and setup
 
-## Cloning and Installation
+## Cloning
 
 The project is hosted on github as a public repository. It is expected that `node` and `npm` packages are installed on the local machine before setting up the project. Following are the further steps to get it running locally:
 
-- clone it by `git clone https://github.com/developersri/cs-quotes.git`.
-- run `npm install` and `npm start` from the project directory
+- clone it by `git clone https://github.com/developersri/cs-quotes.git`
 
-## Running it on the browser
+## Installation and Running the app
 
-By default, the project is hosted on `http://localhost:3000`
+Run `npm install` and `npm start` from the project directory. By default, the project is hosted on `http://localhost:3000`
 
 # Project
 
