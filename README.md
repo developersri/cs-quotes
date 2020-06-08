@@ -65,7 +65,18 @@ If the quote is rated highly (>=4), the system is wired up to identify a similar
 
   The reason why this technique is deemed helpful for this application is that 2 different quotes can have words with same root but still not be identified due to their inflection in either or both of the quotes. Reducing each inflected word to their roots can significantly increase the chances of finding 'flavors' of the same root word in other quotes.
 
-  By matching each quote for a specific set of root words, the quote is given a score which is literally equal to the number of root words matched.
-  > If a **similar** quote is to be found, all quotes having highest possible 'score' are qualified for further evaluation.  > For finding a **dissimilar** quote, all quotes having lowest possible score are promoted further.
+  By matching each quote for a specific set of root words, the quote is given a 'Similarity Score' which is literally equal to the number of root words matched.
 
-- **Sentiment Analysis** is the process of finding a normalized sentiment score of a sentence. This is achieved by inspecting a string word by word evaluating sentimental 'polarity' of each of them, summing them up and then normalizing the sum by the length of the sentence.
+  > If a **similar** quote is to be found, all quotes having highest possible 'similarity score' are qualified for further evaluation.
+  > For finding a **dissimilar** quote, all quotes having lowest possible score are promoted further.
+
+- **Sentiment Analysis** is the process of finding a normalized 'Sentiment Score' of a sentence. This is achieved by inspecting a string, word by word, evaluating sentimental 'polarity' for each of them. Each word's polarity is then summed up and normalized by the length of the sentence.
+
+  More on sentiment analysis can be found [here](https://en.wikipedia.org/wiki/Sentiment_analysis) and how `natural` does it [here](https://www.npmjs.com/package/natural#sentiment-analysis).
+
+  There can be more than one quote in the pool which matches the desired 'Similarity Score' obtained after stemming. To pick the most suitable quote from all quotes having the same score, the chosen way was to analyze the sentiment of each quote and finally pick the quote with closest/furthest sentiment.
+
+  **Sentimental difference** is devised to find the closest/furthest sentiment and is calculated by finding the absolute difference between 'Sentimental Score' of the subject quote and that of the original one.
+  
+  > If a **similar** quote is to be found, the quote having the **least** 'sentimental difference' is picked.
+  > For finding a **dissimilar** quote, the quote having the **most** 'sentimental difference' is picked.
