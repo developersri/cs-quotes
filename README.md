@@ -1,5 +1,6 @@
 The project is focused towards presenting a famous computer science quote picked from a fixed pool and allows voting on it by the user. If the quote is rated highly (i.e., rated above or equal to 4 out of 5), the system tries to find a **lexically and sentimentally** similar quote from the same pool and present it next. If the quote is disliked (i.e., rated 1 out of 5), the system goes on to find a **lexically and sentimentally** distant quote to be presented next.
 
+
 # Installation and setup
 
 ## Cloning
@@ -11,6 +12,7 @@ The project is hosted on github as a public repository. It is expected that `nod
 ## Installation and Running the app
 
 Run `npm install` and `npm start` from the project directory. By default, the project is hosted on `http://localhost:3000`
+
 
 # Project
 
@@ -25,11 +27,12 @@ The project comprises of a client application built in `ReactJS` and has the fol
 
 - `/auth`:
   - strictly anonymous (i.e., can be accessed only until the user is not authenticated)
-  - this path hosts the component `Login` which where a list of 3rd party authentication providers shows up. It includes **Github**, **Google** and **_Simulated_** login providers. Simulated login method is designed to simulate the general OAuth mechanism by generating a random token **without** permission grant from the user and redirects the user agent (browser) to the expected route `/auth/$provider/$token` as should the rest of providers.
+  - this path hosts the component `Login` which where a list of 3rd party authentication providers shows up. It includes **Github**, **Google** and **_Simulator_** login providers. Simulator method is designed to simulate the general OAuth mechanism by generating a random token **without** permission grant from the user and redirects the user agent (browser) to the expected route `/auth/$provider/$token` as should the rest of providers.
 
 - `/auth/$provider/$token`:
   - strictly anonymous (i.e., can be accessed only until the user is not authenticated)
   - this path is a default 'catchall' route for all 3rd party API server redirects post authentication. At this route, the idea is to handle supplied auth `$token` and request other protected resources (user email) from API server of the `$provider` using the token. Once the user is authenticated, the UI automatically redirects to the default `/vote` route to proceed with further workflow.
+
 
 ## Workflow
 
@@ -39,7 +42,8 @@ The main React component of the application is `Vote` (file: `src/containers/Vot
 
 User is presented with a random quote from a pool of quotes `GET`ted remotely from `https://programming-quotes-api.herokuapp.com/quotes/random`. This is handled inside the method `getQuote(id)` of `Vote` class. This function takes an optional parameter `id`. If the method is called with `id` argument, it will fetch the quote matching with the supplied id, and will fetch a totally random quote if no `id` is supplied while calling the function. This function is called at following events:
 
-- `componentDidMount` lifecycle hook (wihtout `id`): to fetch random quote on startup
+- `componentDidMount` lifecycle hook:
+  - called without `id` to fetch random quote on start-up
 - `rateActiveQuote` method:
   - called with `id` if current quote is rated highly (>= 4) or lowly (=1)
   - called without `id` if current quote is rated as average (2 or 3)
@@ -53,5 +57,17 @@ Once the vote has been successfully recorded, the system further makes a decisio
 
 If the quote is rated highly (>=4), the system is wired up to identify a similar quote and present it next. If the rating given by the user was not pleasant (=1), the system identifies the event as a trigger to find a dissimilar quote. In order to achieve this, a natural language processing library `natural` has been used. It is available on `npm` and should be installed at the time of project setup (no explicit installation steps are required). The library exposes several NLP techniques and methods from which, this application leverages 'Stemming' and 'Sentiment Analysis' particularly.
 
-- **Stemming**:
-- **Sentiment Analysis**:
+- **Stemming** is the process of reducing inflection in words to derive their root words.
+  Example:
+    programming -> program
+    computing -> compute
+
+  More on stemming can be found [here](https://en.wikipedia.org/wiki/Stemming) and how `natural` does it [here](https://www.npmjs.com/package/natural#stemmers).
+
+  The reason why this technique is deemed helpful for this application is that 2 different quotes can have words with same root but still not be identified due to their inflection in either or both of the quotes. Reducing each inflected word to their roots can significantly increase the chances of finding 'flavors' of the same root word in other quotes.
+
+  By matching each quote for a specific set of root words, the quote is given a score which is literally equal to the number of root words matched.
+  If a **similar** quote is to be found, all quotes having highest possible 'score' are qualified for further evaluation.
+  For finding a **dissimilar** quote, all quotes having lowest possible score are promoted further.
+
+- **Sentiment Analysis** is the process of finding a normalized sentiment score of a sentence. This is achieved by inspecting a string word by word evaluating sentimental 'polarity' of each of them, summing them up and then normalizing the sum by the length of the sentence.
