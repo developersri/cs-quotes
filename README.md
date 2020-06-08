@@ -27,7 +27,7 @@ The project comprises of a client application built in `ReactJS` and has the fol
 
 - `/auth`:
   - strictly anonymous (i.e., can be accessed only until the user is not authenticated)
-  - this path hosts the component `Login` which where a list of 3rd party authentication providers shows up. It includes **Github**, **Google** and **_Simulator_** login providers. Simulator method is designed to simulate the general OAuth mechanism by generating a random token **without** permission grant from the user and redirects the user agent (browser) to the expected route `/auth/$provider/$token` as should the rest of providers.
+  - this path hosts the `Login` component where a list of 3rd party authentication providers shows up. It includes **Github**, **Google** and **_Simulator_** login providers. Simulator method is designed to simulate the general OAuth mechanism by generating a random token **without** permission grant from the user and redirects the user agent (browser) to the expected route `/auth/$provider/$token` as should the rest of providers.
 
 - `/auth/$provider/$token`:
   - strictly anonymous (i.e., can be accessed only until the user is not authenticated)
